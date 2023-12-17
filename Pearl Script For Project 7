@@ -1,0 +1,84 @@
+#By Zackary Paulson
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my @patients;
+
+sub calculate_age {
+}
+
+sub generate_pin {
+}
+
+sub print_patient_info {
+    my ($patient) = @_;
+    print "Full Name: $patient->{first_name} $patient->{middle_name} $patient->{last_name}\n";
+    print "Age: $patient->{age}\n";
+    print "Ailment: $patient->{ailment}\n";
+    print "PIN: $patient->{pin}\n";
+}
+
+sub process_billing {
+}
+
+sub enter_patient_data {
+    my %patient;
+    print "Enter patient data:\n";
+    print "Last Name: ";
+    $patient{last_name} = <STDIN>;
+    chomp $patient{last_name};
+
+    print "First Name: ";
+    $patient{first_name} = <STDIN>;
+    chomp $patient{first_name};
+
+    print "Middle Name: ";
+    $patient{middle_name} = <STDIN>;
+    chomp $patient{middle_name};
+
+    print "Date of Birth (YYYY-MM-DD): ";
+    my $dob = <STDIN>;
+    chomp $dob;
+    $patient{age} = calculate_age($dob);
+
+    print "Insurance Carrier or None: ";
+    $patient{insurance} = <STDIN>;
+    chomp $patient{insurance};
+
+    print "Ailment: ";
+    $patient{ailment} = <STDIN>;
+    chomp $patient{ailment};
+
+    $patient{pin} = generate_pin();
+
+    push @patients, \%patient;
+    print_patient_info(\%patient);
+}
+
+sub main_menu {
+    while (1) {
+        print "\n--- Emergency Room System ---\n";
+        print "1. Enter new patient data\n";
+        print "2. Process billing for patients without insurance\n";
+        print "3. Exit\n";
+        print "Enter your choice: ";
+
+        my $choice = <STDIN>;
+        chomp $choice;
+
+        if ($choice == 1) {
+            enter_patient_data();
+        } elsif ($choice == 2) {
+            process_billing();
+        } elsif ($choice == 3) {
+            last;
+        } else {
+            print "Invalid choice. Please try again.\n";
+        }
+    }
+}
+
+main_menu();
+
